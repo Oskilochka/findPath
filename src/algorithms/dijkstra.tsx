@@ -1,31 +1,23 @@
 import React from "react";
 import { sortNodesByDistance, updateNeighbors } from "./helpers";
+import { Node } from "../types";
 
-function dijkstra(board: any, startNode: any, finishNode: any) {
-  if (!startNode || !finishNode || startNode === finishNode) return false;
+function dijkstra(board: any, startNode: Node, finishNode: Node) {
+  const visitedNodes = [];
 
-  board[startNode].distance = 0;
-  const unvisitedNodes = JSON.parse(JSON.stringify(board))
+  startNode.distance = 0;
+
+  const unvisitedNodes = JSON.parse(JSON.stringify(board));
 
   while (unvisitedNodes?.length) {
     sortNodesByDistance(unvisitedNodes);
-    const closestNode = unvisitedNodes.unshift();
-    closestNode.isVisited = true;
+    const closestNode = unvisitedNodes.shift();
 
-    if (closestNode === finishNode) return "success";
+    closestNode.isVisited = true;
+    visitedNodes.push(closestNode);
+
+    if (closestNode === finishNode) return visitedNodes;
     updateNeighbors(closestNode, board);
 
-    // let curNode = getClosestNode(nodes, unvisitedNodes);
-    //
-    // while (curNode.status === "wall" && unvisitedNodes.length) {
-    //   curNode = getClosestNode(nodes, unvisitedNodes);
-    // }
-    //
-    // if (curNode.distance === Infinity) return false;
-    //
-    // curNode.status = "visited";
-    //
-    // ;
-    //
   }
 }
