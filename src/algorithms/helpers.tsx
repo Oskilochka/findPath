@@ -1,10 +1,10 @@
 import React from "react";
 import { NodeType } from "../types";
 
-export const START_NODE_ROW = 1;
-export const START_NODE_COL = 30;
-export const FINISH_NODE_ROW = 1;
-export const FINISH_NODE_COL = 1;
+export const START_NODE_ROW = 10;
+export const START_NODE_COL = 10;
+export const FINISH_NODE_ROW = 10;
+export const FINISH_NODE_COL = 35;
 
 export function sortNodesByDistance(unvisitedNodes: NodeType[]) {
   unvisitedNodes.sort((nodeA: NodeType, nodeB: NodeType) => nodeA.distance - nodeB.distance);
@@ -45,7 +45,7 @@ export function getInitialGrid() {
   return nodes;
 }
 
-export function createNode(col: number, row: number): NodeType {
+export function createNode(row: number, col: number): NodeType {
   return {
     col,
     row,
