@@ -1,10 +1,10 @@
-export type Node = {
-  col: any
-  row: any
+export type NodeType = {
+  col: number
+  row: number
   isStart: boolean,
   isFinish: boolean,
   distance: number,
   isVisited: boolean,
   isWall: boolean,
-  previousNode: Node | null
+  previousNode: NodeType | null
 }

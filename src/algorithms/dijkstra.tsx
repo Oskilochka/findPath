@@ -1,8 +1,8 @@
 import React from "react";
 import { sortNodesByDistance, updateNeighbors } from "./helpers";
-import { Node } from "../types";
+import { NodeType } from "../types";
 
-function dijkstra(board: any, startNode: Node, finishNode: Node) {
+export function dijkstra(board: NodeType[][], startNode: NodeType, finishNode: NodeType) {
   const visitedNodes = [];
 
   startNode.distance = 0;
