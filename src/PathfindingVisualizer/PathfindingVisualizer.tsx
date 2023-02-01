@@ -14,8 +14,6 @@ export const PathfindingVisualizer = React.memo(() => {
     setGrid(initialGrid);
   }, [ setGrid ]);
 
-  console.log(grid, "grid");
-
   const mouseDownHandler = (row: number, col: number) => {
     const newGrid = getGridWithWallToggled(grid, row, col);
     setGrid(newGrid);
@@ -28,8 +26,20 @@ export const PathfindingVisualizer = React.memo(() => {
     setGrid(newGrid);
   };
 
-  const mouseUpHandler = (row: number, col: number) => {
+  const mouseUpHandler = () => {
     setIsMousePressed(false);
+  };
+
+  const animateAlgo = (visitedNodes: NodeType[]) => {
+    for (let i = 0; i <= visitedNodes.length; i++) {
+      setTimeout(() => {
+        const node: NodeType = visitedNodes[i];
+        if (node) {
+          document.getElementById(`node-${node.row}-${node.col}`)!.className = `node node-visited`;
+        }
+
+      }, 100 & i);
+    }
   };
 
   const visualizeDijkstra = () => {
@@ -37,22 +47,32 @@ export const PathfindingVisualizer = React.memo(() => {
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
 
     const visitedNodes = dijkstra(grid, startNode, finishNode);
+    visitedNodes && animateAlgo(visitedNodes);
 
     console.log(visitedNodes, "visitedNodes");
   };
 
   return (
     <div>
-      <div>
-        <button onClick={() => visualizeDijkstra()}>Visualize</button>
-      </div>
+      <button onClick={() => visualizeDijkstra()}>Visualize</button>
       <div className={styles.grid}>
         {
           grid?.map((row: NodeType[], index: number) => {
             return <div key={index}>
               {
                 row?.map((node: NodeType, nodeIndex: number) =>
-                  <Node isStart={node.isStart} isFinish={node.isFinish} key={nodeIndex} />)
+                  <Node
+                    key={nodeIndex}
+                    row={node.row}
+                    col={node.col}
+                    isStart={node.isStart}
+                    isFinish={node.isFinish}
+                    isVisited={node.isVisited}
+                    mouseIsPressed={isMousePressed}
+                    onMouseDown={(row: number, col: number) => mouseDownHandler(row, col)}
+                    onMouseEnter={(row: number, col: number) => mouseEnterHandler(row, col)}
+                    onMouseUp={() => mouseUpHandler()}
+                  />)
               }
             </div>;
           })

@@ -19,7 +19,19 @@ export function getNeighbors(node: NodeType, grid: NodeType[][]) {
   if (col > 0) neighbors.push(grid[row][col - 1]);
   if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
 
-  return neighbors;
+  return neighbors.filter(n => !n.isVisited);
+}
+
+export function getAllNodes(grid: NodeType[][]) {
+  const nodes = [];
+
+  for (const row of grid) {
+    for (const node of row) {
+      nodes.push(node);
+    }
+  }
+
+  return nodes;
 }
 
 export function updateNeighbors(node: NodeType, grid: NodeType[][]) {
@@ -27,16 +39,17 @@ export function updateNeighbors(node: NodeType, grid: NodeType[][]) {
 
   for (const neighbor of neighbors) {
     neighbor.distance = node.distance + 1;
+    neighbor.previousNode = node;
   }
 }
 
 export function getInitialGrid() {
   const nodes: NodeType[][] = [];
 
-  for (let row = 1; row <= 20; row++) {
+  for (let row = 0; row < 20; row++) {
     const currentRow: NodeType[] = [];
 
-    for (let col = 1; col <= 50; col++) {
+    for (let col = 0; col < 50; col++) {
       currentRow.push(createNode(row, col));
     }
     nodes.push(currentRow);

@@ -13,3 +13,11 @@
 .isFinish {
     background-color: red;
 }
+
+.isVisited {
+    background-color: #546496;
+}
+
+/*.node-visited {*/
+/*    animation-name: visi;*/
+/*}*/
